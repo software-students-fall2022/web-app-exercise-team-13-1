@@ -5,7 +5,7 @@ A little exercise to build a web application following an agile development proc
 
 ## Product vision statement
 
-See instructions. Delete this line and place the Product Vision Statement here.
+A website where you can create daily motivational promise to yourself and visualize the accomplishment to promote consistent motivation. 
 
 ## User stories
 
