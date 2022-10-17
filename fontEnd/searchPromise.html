@@ -1,13 +1,41 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Search Page</title>
+		<title>Searh Result</title>
 		<link rel="stylesheet" href="css/basic.css">
 	</head>
 
 	<body>
 		<h1>Look for Promise made before here</h1>
-		<a href="viewPromise.html"><div>View here</div></a>
-		<a href="index.html"><div>Return Home</div></a>
+		<a href="index.html">Return Home</a>
+		<form id="Search">
+			<a href="searchPromise.html"><img src="https://www.iconsdb.com/icons/preview/white/google-web-search-xxl.png" width="25" height="25"></a>
+			<input type="text">
+		</form>
+		<div><p id="Month">	&lt November 2022 &gt </p></div>
+		<table id="myTable">
+		<tr>
+			<th>Promise</th>
+			<th>Date</th>
+			<th>Complete</th>
+		</tr>
+		<tr>
+		</tr>
+
+		</table>
+		
 	</body>
+
+	<script>
+			var table = document.getElementById("myTable");
+			for(var i=1;i<4;i++){
+			var row = table.insertRow(i);
+			var cell1 = row.insertCell(0);
+			var cell2 = row.insertCell(1);
+			var cell3 = row.insertCell(2);
+			cell1.innerHTML = '<a href="viewPromise.html">I want to dance with '+i+' snow man</a>';
+			cell2.innerHTML = '<p>'+new Date()+'</p>';
+			cell3.innerHTML = '<a href="editPromise.html">Not Complete';
+			}
+	</script>
 </html>
