@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Calendar View</title>
+    <style>
+        header {
+            display: flex;
+            align-items: center;
+            font-size: calc(16px + (26 - 16) * ((100vw - 300px) / (1600 - 300)));
+            justify-content: center;
+            margin-bottom: 2em;
+            color: #000;
+            min-height: 10vh;
+            text-align: center;
+        }
+
+        ul,
+        ol {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            grid-gap: 1em;
+            margin: 0 auto;
+            max-width: 64em;
+            padding: 0;
+        }
+
+        li {
+            display: flex;
+            list-style: none;
+            margin-left: 0;
+            font-size: calc(16px + (21 - 16) * ((100vw - 300px) / (1600 - 300)));
+        }
+
+        ul.weekdays {
+            margin-bottom: 1em;
+        }
+
+        ul.weekdays li {
+            height: 4vw;
+        }
+
+        ol.day-grid li {
+            background-color: #eaeaea;
+            border: 1px solid #eaeaea;
+            height: 12vw;
+            max-height: 125px;
+        }
+
+        ul.weekdays abbr[title] {
+            border: none;
+            font-weight: 800;
+            text-decoration: none;
+        }
+
+        .month-prev,
+        .month-next {
+            background-color: #fff !important;
+        }
+
+        li.completed>img {
+            content: url("./images/green_check.png");
+        }
+
+        li.not-completed>img {
+            content: url("./images/red_cross.png");
+        }
+
+        li.question>img {
+            content: url("./images/question.png");
+        }
+
+        li.add>img {
+            content: url("./images/plus.png");
+        }
+
+        @media all and (max-width: 800px) {
+
+            ul,
+            ol {
+                grid-gap: .25em;
+            }
+
+            ul.weekdays li {
+                font-size: 0;
+            }
+
+            ul.weekdays>li abbr:after {
+                content: attr(title);
+                font-size: calc(16px + (26 - 16) * ((100vw - 300px) / (1600 - 300)));
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="calendar">
+        <header>
+            <button>&lt;</button>
+            <h1>October 2022</h1> <button>&gt;</button>
+        </header>
+
+        <ul class="weekdays">
+            <li>
+                <abbr title="M">Monday</abbr>
+            </li>
+            <li>
+                <abbr title="T">Tuesday</abbr>
+            </li>
+            <li>
+                <abbr title="W">Wednesday</abbr>
+            </li>
+            <li>
+                <abbr title="T">Thursday</abbr>
+            </li>
+            <li>
+                <abbr title="F">Friday</abbr>
+            </li>
+            <li>
+                <abbr title="S">Saturday</abbr>
+            </li>
+            <li>
+                <abbr title="S">Sunday</abbr>
+            </li>
+        </ul>
+
+        <ol class="day-grid">
+            <li class="month-prev">26</li>
+            <li class="month-prev">27</li>
+            <li class="month-prev">28</li>
+            <li class="month-prev">29</li>
+            <li class="month-prev">30</li>
+            <li class="completed">1 <img></li>
+            <li class="not-completed">2 <img></li>
+            <li class="completed">3 <img></li>
+            <li class="completed">4 <img></li>
+            <li class="not-completed">5 <img></li>
+            <li class="completed">6 <img></li>
+            <li class="completed">7 <img></li>
+            <li class="not-completed">8 <img></li>
+            <li class="not-completed">9 <img></li>
+            <li class="completed">10 <img></li>
+            <li class="completed">11 <img></li>
+            <li class="completed">12 <img></li>
+            <li class="not-completed">13 <img></li>
+            <li class="completed">14 <img></li>
+            <li class="completed">15 <img></li>
+            <li class="completed">16 <img></li>
+            <li class="question">17 <img></li>
+            <li class="add">18 <img></li>
+            <li>19 <img></li>
+            <li>20 <img></li>
+            <li>21 <img></li>
+            <li>22 <img></li>
+            <li>23 <img></li>
+            <li>24 <img></li>
+            <li>25 <img></li>
+            <li>26 <img></li>
+            <li>27 <img></li>
+            <li>28 <img></li>
+            <li>29 <img></li>
+            <li>30 <img></li>
+            <li>31 <img></li>
+            <li class="month-next">1</li>
+            <li class="month-next">2</li>
+            <li class="month-next">3</li>
+            <li class="month-next">4</li>
+            <li class="month-next">5</li>
+            <li class="month-next">6</li>
+        </ol>
+    </div>
+</body>
+
+</html>
