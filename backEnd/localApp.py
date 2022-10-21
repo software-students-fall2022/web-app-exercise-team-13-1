@@ -42,7 +42,7 @@ def show_home():
 @app.route('/home-list-view')
 def show_home_list_view():
     docs = db.promise_app.find({}).sort("date", -1)
-    return render_template('front-end/homePageList.html', docs=docs)
+    return render_template('frontEnd/homePageList.html', docs=docs)
 
 @app.route('/create-promise')
 def show_create_promise():
