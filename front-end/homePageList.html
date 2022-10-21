@@ -23,11 +23,13 @@
             <th>Date</th>
             <th>Completed</th>
         </tr>
-        <tr>
-            <th>I will study for my physics exam.</th>
-            <th>10/10/22</th>
-            <th><i class= "fa fa-thumbs-o-up"></i></th>
-        </tr>
+        {% for doc in docs %}
+            <tr>
+                <td>{{doc.promise}}</th>
+                <td>{{doc.date}}</td>
+                <td> {{doc.status}}></td>
+            </tr>
+        < !╌ 
         <tr>
             <th>I will call my parents.</th>
             <th>10/11/22</th>
@@ -42,7 +44,8 @@
             <th>I will meditate for 5 minutes when I wake up.</th>
             <th>10/13/22</th>
             <th><i class= "fa fa-thumbs-o-up"></i></th>
-        </tr>
+        </tr> 
+        ╌> 
     </table>
 </body>
 </html>
