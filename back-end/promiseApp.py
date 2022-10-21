@@ -5,9 +5,10 @@ import pymongo
 import datetime
 from bson.objectid import ObjectId
 import sys
+import os
 
 # instantiate the app
-app = Flask(__name__)
+app = Flask(__name__, template_folder='../front-end', static_folder='../front-end/static')
 
 # load credentials and configuration options from .env file
 # if you do not yet have a file named .env, make one based on the template in env.example
@@ -20,6 +21,12 @@ if config['FLASK_ENV'] == 'development':
 
 
 # connect to the database
+
+# Database Schema 
+# DB Name: team13db
+# Collection Name: promises
+# data structure: {'promise': '', 'date': '', 'complete': true}
+
 cxn = pymongo.MongoClient(config['MONGO_URI'], serverSelectionTimeoutMS=5000)
 try:
     # verify the connection works by pinging the database
@@ -41,14 +48,44 @@ def show_home():
 
 @app.route('/home-list-view')
 def show_home_list_view():
-    return render_template('frontEnd/homePageList.html')
+    return render_template('homePageList.html')
 
 @app.route('/create-promise')
 def show_create_promise():
-    return render_template('frontEnd/createPromise.html')
+    return render_template('createPromise.html')
 
 @app.route('/edit-promise')
 def show_edit_promise():
-    return render_template('frontEnd/editPromise.html')
+    return render_template('editPromise.html')
+
+@app.route('/if-completed', methods=['GET', 'POST'])
+def show_if_completed():
+	if request.method == 'POST':
+		# Update promise data from form
+		if_completed = request.form['if-completed']
+		redirect_url = request.form['redirect_url']
+		id = request.form['id']
+
+		update_data = {
+			'complete': if_completed == 'Yes'
+		}
+		
+		db.promises.update_one({"_id": ObjectId(id)}, {"$set": update_data})
+
+		# Redirect to other page
+		return redirect(redirect_url)
+	elif request.method == 'GET':
+		redirect_url = request.args.get('redirect_url')
+		id = request.args.get('id') #need to use query string to send a specific id for if-completed
+		return render_template('ifCompleted.html', redirect_url=redirect_url, id=id)
+	
+
+
+
+# run the app
+if __name__ == "__main__":
+    #import logging
+    #logging.basicConfig(filename='/home/ak8257/error.log',level=logging.DEBUG)
+    app.run(debug = True)
 
 
