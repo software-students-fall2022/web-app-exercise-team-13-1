@@ -10,7 +10,7 @@ import sys
 temp=1;
 wuji();
 # instantiate the app
-app = Flask(__name__)
+app = Flask(__name__, template_folder="../front-end")
 
 # load credentials and configuration options from .env file
 # if you do not yet have a file named .env, make one based on the template in env.example
@@ -44,14 +44,26 @@ def show_home():
 
 @app.route('/home-list-view')
 def show_home_list_view():
-    return render_template('frontEnd/homePageList.html')
+    return render_template('homePageList.html')
 
 @app.route('/create-promise')
 def show_create_promise():
-    return render_template('frontEnd/createPromise.html')
+    return render_template('createPromise.html')
 
 @app.route('/edit-promise')
 def show_edit_promise():
-    return render_template('frontEnd/editPromise.html')
+    doc = {
+        "content": "I will study for my physics exam.",
+        "date": "2022-11-28",
+        "status": "incomplete"
+    }
+
+
+    mongoid = db.wc1629.insert_one(doc)
+    data=db.wc1629.find({
+        "content": "I will study for my physics exam."
+    })
+    length=db.wc1629.count_documents({"date": "2022-11-28"})
+    return render_template('editPromise.html',data=data, length=length)
 
 
