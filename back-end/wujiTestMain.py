@@ -54,10 +54,18 @@ def show_create_promise():
 def show_edit_promise():
     
     if request.method == 'POST':
-         idToDelete=request.form['delete']
-         db.wc1629.delete_one({
-            "_id": ObjectId(idToDelete)
-        })
+        if "delete" in request.form:
+             idToDelete=request.form['delete']
+             db.wc1629.delete_one({
+                "_id": ObjectId(idToDelete)
+              })
+             #print('Hello world!', file=sys.stderr)
+        else:
+             idToEdit=request.form['editId']
+             editContent=request.form['edit']
+             print(idToEdit, file=sys.stderr)
+             db.wc1629.update_one({"_id": ObjectId(idToEdit)},{"$set": {"content":editContent}})
+            
     doc = {
         "content": "I will study for my physics exam.",
         "date": "2022-11-28",
@@ -66,7 +74,7 @@ def show_edit_promise():
     
     #mongoid = db.wc1629.insert_one(doc)
     data=db.wc1629.find({
-        "content": "I will study for my physics exam."
+        "date": "2022-11-28"
     })
 
     return render_template('editPromise.html',data=data)
