@@ -50,6 +50,19 @@ def show_home_list_view():
 def show_create_promise():
     return render_template('createPromise.html')
 
+@app.route('/search-promise', methods=['GET','POST'])
+def show_search_promise():
+    searchTag=""
+    if request.method == 'POST':
+        searchTag=request.form['search']
+    #db.wc1629.drop_index('your field_text')
+    db.wc1629.create_index([('content', 'text')])
+    data=db.wc1629.find({
+      "$text": {"$search": searchTag}
+    })
+    print(searchTag, file=sys.stderr)
+    return render_template('searchPromise.html',data=data)
+
 @app.route('/edit-promise', methods=['GET','POST'])
 def show_edit_promise():
     
@@ -63,7 +76,7 @@ def show_edit_promise():
         else:
              idToEdit=request.form['editId']
              editContent=request.form['edit']
-             print(idToEdit, file=sys.stderr)
+             #print(idToEdit, file=sys.stderr)
              db.wc1629.update_one({"_id": ObjectId(idToEdit)},{"$set": {"content":editContent}})
             
     doc = {
@@ -74,9 +87,12 @@ def show_edit_promise():
     
     #mongoid = db.wc1629.insert_one(doc)
     data=db.wc1629.find({
-        "date": "2022-11-28"
-    })
-
+        "date": {
+             "$gte": "2022-11-1",
+             "$lte": "2022-11-31"
+            }
+    }).sort("date", -1)
+    #print(data, file=sys.stderr)
     return render_template('editPromise.html',data=data)
 
 

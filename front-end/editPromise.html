@@ -62,7 +62,9 @@
 				  text-decoration: none;
 				  cursor: pointer;
 				}
+				
 		</style>
+
 		
 	</head>
 
@@ -97,7 +99,7 @@
 		</tr>
 		{% for i in data %}
 		<tr>
-			<td><button class="myBtn" id="{{i._id}}" value="{{i.content}}">{{i.content}}</button></td>
+			<td><button class="myBtn" onclick="myFunction('{{i._id}}','{{i.content}}')" id="{{i._id}}" value="{{i.content}}">{{i.content}}</button></td>
 			<td>{{i.date}}</td>
 			<td>{{i.status}}</td>		
 			<td>
@@ -134,18 +136,19 @@
 			// Get the <span> element that closes the modal
 			var span = document.getElementsByClassName("close")[0];
 
-			
+			var temp1=new Array(buttons.length);
+			var temp2=new Array(buttons.length);
 			// When the user clicks on the button, open the modal
 			for (var i = 0; i < buttons.length; i++) {
-				var temp=buttons.item(i).id;
-				var temp2=buttons.item(i).value;
-				//console.log(temp);
-				buttons.item(i).onclick = function() {
+				temp1[i]=buttons.item(i).id;
+				temp2[i]=buttons.item(i).value;
+				//console.log(temp1[i]);
+				//buttons.item(i).onclick = open(temp1[i],temp2[i]);
+				/*function(a=temp1[i],b=temp2[i]) {
 					 modal.style.display = "block"
-					 //console.log(temp);
-					 document.getElementById("editButton").value = temp;
-					 document.getElementById("editContent").value = temp2;
-				}
+					 document.getElementById("editButton").value = a;
+					 document.getElementById("editContent").value = b;
+				}*/
 			}
 
 
@@ -160,6 +163,13 @@
 				modal.style.display = "none";
 				
 			  }
+			}
+
+			function myFunction(a,b) {
+				var modal = document.getElementById("myModal");
+				 modal.style.display = "block"
+				 document.getElementById("editButton").value = a;
+				 document.getElementById("editContent").value = b;
 			}
 	</script>
 </html>
