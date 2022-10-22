@@ -10,7 +10,7 @@ import sys
 temp=1;
 wuji();
 # instantiate the app
-app = Flask(__name__, template_folder="../front-end")
+app = Flask(__name__, template_folder="../front-end",static_folder='../front-end/static')
 
 # load credentials and configuration options from .env file
 # if you do not yet have a file named .env, make one based on the template in env.example
@@ -50,20 +50,25 @@ def show_home_list_view():
 def show_create_promise():
     return render_template('createPromise.html')
 
-@app.route('/edit-promise')
+@app.route('/edit-promise', methods=['GET','POST'])
 def show_edit_promise():
+    
+    if request.method == 'POST':
+         idToDelete=request.form['delete']
+         db.wc1629.delete_one({
+            "_id": ObjectId(idToDelete)
+        })
     doc = {
         "content": "I will study for my physics exam.",
         "date": "2022-11-28",
         "status": "incomplete"
     }
-
-
-    mongoid = db.wc1629.insert_one(doc)
+    
+    #mongoid = db.wc1629.insert_one(doc)
     data=db.wc1629.find({
         "content": "I will study for my physics exam."
     })
-    length=db.wc1629.count_documents({"date": "2022-11-28"})
-    return render_template('editPromise.html',data=data, length=length)
+
+    return render_template('editPromise.html',data=data)
 
 
