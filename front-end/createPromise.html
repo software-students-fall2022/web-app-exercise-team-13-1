@@ -9,6 +9,7 @@
 	<body>
 		<h1 class="make-promise"> What's your promise for today?</h1>
 		<form class="promise-box" action="" method="POST">
+			<input type="hidden" name="redirect_url" value="{{redirect_url}}" />
 			<textarea class="promise-text-area" name="promise" placeholder="Type in your promise for today"></textarea>
 			<input class="submit-promise" type="submit" value="Make a promise"/>
 		</form>
