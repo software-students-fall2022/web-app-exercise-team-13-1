@@ -9,12 +9,67 @@
         margin-left:auto;
         margin-right:auto;
       }
-    
+        /* Add a black background color to the top navigation bar */
+    .topnav {
+    overflow: hidden;
+    background-color: #e9e9e9;
+    }
+
+    /* Style the links inside the navigation bar */
+    .topnav a {
+    float: left;
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+    }
+
+    /* Change the color of links on hover */
+    .topnav a:hover {
+    background-color: #ddd;
+    color: black;
+    }
+
+    /* Style the "active" element to highlight the current page */
+    .topnav a.active {
+    background-color: #2196F3;
+    color: white;
+    }
+
+    /* Style the search box inside the navigation bar */
+    .topnav input[type=text] {
+    float: right;
+    padding: 6px;
+    border: none;
+    margin-top: 8px;
+    margin-right: 16px;
+    font-size: 17px;
+    }
+
+    /* When the screen is less than 600px wide, stack the links and the search field vertically instead of horizontally */
+    @media screen and (max-width: 600px) {
+    .topnav a, .topnav input[type=text] {
+        float: none;
+        display: block;
+        text-align: left;
+        width: 100%;
+        margin: 0;
+        padding: 14px;
+    }
+    .topnav input[type=text] {
+        border: 1px solid #ccc;
+    }
+    }
    </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <button class= "btn"><i class="fa fa-search"></i></button>
+    <div class="topnav">
+    <input type="text" placeholder="Search..">
+    </div>
+    <link rel="stylesheet" href="css/basic.css">
+    <button class= "btn"><img src= "https://www.nicepng.com/png/detail/853-8539483_png-file-search-button-icon-png.png"></i></button>
     <h2>October 2022</h2>
-    <button class= "btn"><i class="fa fa-pencil"></i></button>
+    <a href= "{{url_for ('/create-promise?redirect_url?=/home-list-view')}}">><button class= "btn"><img src=" https://cdn-icons-png.flaticon.com/512/84/84380.png"></i></button></a>
 </head>
 <body>
     <table>
@@ -23,26 +78,16 @@
             <th>Date</th>
             <th>Completed</th>
         </tr>
-        <tr>
-            <th>I will study for my physics exam.</th>
-            <th>10/10/22</th>
-            <th><i class= "fa fa-thumbs-o-up"></i></th>
-        </tr>
-        <tr>
-            <th>I will call my parents.</th>
-            <th>10/11/22</th>
-            <th><i class= "fa fa-thumbs-o-down"></i></th>
-        </tr>
-        <tr>
-            <th>I will go to the gym and do a leg workout.</th>
-            <th>10/12/22</th>
-            <th><i class= "fa fa-thumbs-o-up"></i></th>
-        </tr>
-        <tr>
-            <th>I will meditate for 5 minutes when I wake up.</th>
-            <th>10/13/22</th>
-            <th><i class= "fa fa-thumbs-o-up"></i></th>
-        </tr>
+        {% for doc in docs %}
+            <tr>
+                <td>{{doc.promise}}</th>
+                <td>{{doc.date}}</td>
+                {%if {{doc.complete}} != null%}
+                <td>{{doc.complete}}</td>
+                {% else %}
+                <a href="{{url_for ('/if-completed?redirect_url?=/home-list-view')}}"><button class="btn"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Question_mark_%28black%29.svg/800px-Question_mark_%28black%29.svg.png"></button></a>
+                {%endif%}
+            </tr>
     </table>
 </body>
 </html>
