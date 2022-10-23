@@ -2,15 +2,38 @@
 <html>
 	<head>
 		<title>Searh Result</title>
-		<link rel="stylesheet" href="css/basic.css">
+		<link rel="stylesheet" href="static/css/basic.css">
+		<style>
+			button {
+			  font-size:25px;
+			  background-color: rgba(100,200,100,0.5);
+			  background-image: url('searchicon.png');
+			  border: 2px solid white;
+			  color: white;
+			  padding: 16px 32px;
+			  text-decoration: none;
+			  margin: 4px 2px;
+			  cursor: pointer;
+			}
+			input {
+				width: 100%;
+				height:60px;
+				font-size:40px;
+				border: 2px solid green;
+				border-radius: 4px;
+			}
+			::placeholder {
+			  color: white;
+			  opacity: 0.3; /* Firefox */
+			}
+		</style>
 	</head>
 
 	<body>
 		<h1>Look for Promise made before here</h1>
 		<a href="index.html">Return Home</a>
-		<form id="Search">
-			<a href="searchPromise.html"><img src="https://www.iconsdb.com/icons/preview/white/google-web-search-xxl.png" width="25" height="25"></a>
-			<input type="text">
+		<form method="post">
+			<input type="text" id="Search" name="search" value="" placeholder="Search.." >
 		</form>
 		<div><p id="Month">	&lt November 2022 &gt </p></div>
 		<table id="myTable">
@@ -19,23 +42,20 @@
 			<th>Date</th>
 			<th>Complete</th>
 		</tr>
+		{% for i in data %}
 		<tr>
+			<td><button class="myBtn" id="{{i._id}}" value="{{i.content}}">{{i.content}}</button></td>
+			<td>{{i.date}}</td>
+			<td>{{i.status}}</td>		
 		</tr>
+		{% endfor %}
 
 		</table>
 		
 	</body>
 
 	<script>
-			var table = document.getElementById("myTable");
-			for(var i=1;i<4;i++){
-			var row = table.insertRow(i);
-			var cell1 = row.insertCell(0);
-			var cell2 = row.insertCell(1);
-			var cell3 = row.insertCell(2);
-			cell1.innerHTML = '<a href="viewPromise.html">I want to dance with '+i+' snow man</a>';
-			cell2.innerHTML = '<p>'+new Date()+'</p>';
-			cell3.innerHTML = '<a href="editPromise.html">Not Complete';
-			}
+
+			
 	</script>
 </html>
