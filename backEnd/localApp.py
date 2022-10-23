@@ -1,13 +1,14 @@
 from flask import Flask, render_template, request, redirect, url_for, make_response
-##from dotenv import dotenv_values
+from dotenv import dotenv_values
 
 import pymongo
 import datetime
 from bson.objectid import ObjectId
 import sys
+import os
 
 # instantiate the app
-app = Flask(__name__)
+app = Flask(__name__, template_folder='../front-end', static_folder='../front-end/static')
 
 # load credentials and configuration options from .env file
 # if you do not yet have a file named .env, make one based on the template in env.example
@@ -20,11 +21,17 @@ if config['FLASK_ENV'] == 'development':
 
 
 # connect to the database
+
+# Database Schema 
+# DB Name: team13db
+# Collection Name: promises
+# data structure: {'promise': '', 'date': '', 'complete': true}
+
 cxn = pymongo.MongoClient(config['MONGO_URI'], serverSelectionTimeoutMS=5000)
 try:
     # verify the connection works by pinging the database
     cxn.admin.command('ping') # The ping command is cheap and does not require auth.
-    db = cxn[config['promise_app']] # store a reference to the database
+    db = cxn[config['MONGO_DBNAME']] # store a reference to the database
     print(' *', 'Connected to MongoDB!') # if we get here, the connection worked!
 except Exception as e:
     # the ping command failed, so the connection is not available.
@@ -41,16 +48,46 @@ def show_home():
 
 @app.route('/home-list-view')
 def show_home_list_view():
-    docs = db.promise_app.find({}).sort("date", -1)
-    return render_template('frontEnd/homePageList.html', docs=docs)
+    docs=db.promises.find({}).sort("date", -1)
+    return render_template('homePageList.html', docs=docs)
 
 @app.route('/create-promise')
 def show_create_promise():
-    return render_template('front-end/createPromise.html')
+    return render_template('createPromise.html')
 
 @app.route('/edit-promise')
 def show_edit_promise():
-    return render_template('front-end/editPromise.html')
+    return render_template('editPromise.html')
+
+@app.route('/if-completed', methods=['GET', 'POST'])
+def show_if_completed():
+	if request.method == 'POST':
+		# Update promise data from form
+		if_completed = request.form['if-completed']
+		redirect_url = request.form['redirect_url']
+		id = request.form['id']
+
+		update_data = {
+			'complete': if_completed == 'Yes'
+		}
+		
+		db.promises.update_one({"_id": ObjectId(id)}, {"$set": update_data})
+
+		# Redirect to other page
+		return redirect(redirect_url)
+	elif request.method == 'GET':
+		redirect_url = request.args.get('redirect_url')
+		id = request.args.get('id') #need to use query string to send a specific id for if-completed
+		return render_template('ifCompleted.html', redirect_url=redirect_url, id=id)
+	
+
+
+
+# run the app
+if __name__ == "__main__":
+    #import logging
+    #logging.basicConfig(filename='/home/ak8257/error.log',level=logging.DEBUG)
+    app.run(debug = True)
 
 
 @app.errorhandler(Exception)

@@ -1,9 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, make_response
-<<<<<<< HEAD
 from dotenv import dotenv_values
-=======
-##from dotenv import dotenv_values
->>>>>>> Adding error handler route in app
 
 import pymongo
 import datetime
@@ -52,7 +48,8 @@ def show_home():
 
 @app.route('/home-list-view')
 def show_home_list_view():
-    return render_template('homePageList.html')
+    docs=db.promises.find({}).sort("date", -1)
+    return render_template('homePageList.html', docs=docs)
 
 @app.route('/create-promise')
 def show_create_promise():
