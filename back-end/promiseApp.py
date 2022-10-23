@@ -50,6 +50,132 @@ def show_home():
 def show_home_list_view():
 	return render_template('homePageList.html')
 
+
+@app.route('/home-calendar-view')
+def show_home_calendar_view():
+    request_year = request.args.get('year')
+    request_month = request.args.get('month')
+
+    today_date = datetime.date.today()
+
+    if request_year and request_month and not (int(request_year) == today_date.year and int(request_month) == today_date.month):
+        request_year = int(request_year)
+        request_month = int(request_month)
+
+        today_date = datetime.date(request_year, request_month, 1)
+        today = {
+            "year": request_year,
+            "month": request_month,
+            "day": 1,
+            "month_eng": today_date.strftime("%B")
+        }
+
+        days_in_month = calendar.monthrange(request_year, request_month)[1]
+        month_start_weekday = datetime.date(
+            request_year, request_month, 1).weekday()
+        month_end_weekday = datetime.date(
+            request_year, request_month, days_in_month).weekday()
+    else:
+        today_date = datetime.date.today()
+        today = {
+            "year": today_date.year,
+            "month": today_date.month,
+            "day": today_date.day,
+            "month_eng": today_date.strftime("%B")
+        }
+
+        days_in_month = calendar.monthrange(
+            today_date.year, today_date.month)[1]
+        month_start_weekday = datetime.date(
+            today_date.year, today_date.month, 1).weekday()
+        month_end_weekday = datetime.date(
+            today_date.year, today_date.month, days_in_month).weekday()
+
+    display_days = []
+    display_prev_days = []
+    display_next_days = []
+
+    for i in range(month_start_weekday):
+        display_prev_days.append({
+            "cell_class": "month-prev",
+            "current": 0
+        })
+
+    for day in range(1, days_in_month + 1):
+        find_date = datetime.date(today_date.year, today_date.month, day)
+
+        month_promises = db.promises.find_one({
+            "date": f"{find_date.strftime('%Y')}-{find_date.strftime('%m')}-{find_date.strftime('%d')}"
+        })
+
+        if month_promises:
+            if month_promises["status"] == "completed":
+                display_days.append({
+                    "day": day,
+                    "cell_class": "completed",
+                    "current": 1
+                })
+            elif month_promises["status"] == "incomplete":
+                display_days.append({
+                    "day": day,
+                    "cell_class": "not-completed",
+                    "current": 1
+                })
+            else:
+                if find_date == datetime.date.today():
+                    display_days.append({
+                        "day": day,
+                        "cell_class": "question",
+                        "current": 1,
+                        "today": 1,
+                        "id": month_promises["_id"]
+                    })
+                else:
+                    display_days.append({
+                        "day": day,
+                        "cell_class": "not-completed",
+                        "current": 1
+                    })
+        else:
+            if find_date == datetime.date.today():
+                display_days.append({
+                    "day": day,
+                    "cell_class": "add",
+                    "current": 1,
+                    "today": 1
+                })
+            else:
+                display_days.append({
+                    "day": day,
+                    "cell_class": "month-current",
+                    "current": 1
+                })
+
+    for i in range(6 - month_end_weekday):
+        display_next_days.append({
+            "cell_class": "month-next",
+            "current": 0
+        })
+
+    display_days = display_prev_days + display_days + display_next_days
+
+    prev_month = datetime.date(
+        today['year'], today['month'], 1) - datetime.timedelta(days=1)
+    prev_month = {
+        "year": prev_month.year,
+        "month": prev_month.month
+    }
+
+    next_month = datetime.date(
+        today['year'], today['month'], days_in_month) + datetime.timedelta(days=1)
+    next_month = {
+        "year": next_month.year,
+        "month": next_month.month
+    }
+
+    return render_template('calendarView.html', today=today, display_days=display_days, prev_month=prev_month, next_month=next_month)
+
+
 @app.route('/create-promise', methods=['GET', 'POST'])
 def show_create_promise():
 	if request.method == 'POST':
