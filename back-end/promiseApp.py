@@ -229,27 +229,32 @@ def show_edit_promise():
 
     #mongoid = db.promises.insert_one(doc)
     data = db.promises.find({
-        "date": {
-            "$gte": "2022-11-1",
-            "$lte": "2022-11-31"
-        }
+            "date": {
+             "$gte": "1900-1-1",
+            }
     }).sort("date", -1)
     #print(data, file=sys.stderr)
     return render_template('editPromise.html', data=data)
 
 
-@app.route('/search-promise', methods=['GET', 'POST'])
+@app.route('/search-promise', methods=['GET','POST'])
 def show_search_promise():
-    searchTag = ""
+    searchTag=""
     if request.method == 'POST':
-        searchTag = request.form['search']
-    #db.promises.drop_index('your field_text')
-    db.promises.create_index([('content', 'text')])
-    data = db.promises.find({
-        "$text": {"$search": searchTag}
-    })
+        searchTag=request.form['search']
+        #db.promises.drop_index('your field_text')
+        db.promises.create_index([('content', 'text')])
+        data=db.promises.find({
+          "$text": {"$search": searchTag}
+        }).sort("date", 1)
+    else:
+        data=db.promises.find({
+        "date": {
+             "$gte": "1900-1-1",
+            }
+        }).sort("date", -1)
     print(searchTag, file=sys.stderr)
-    return render_template('searchPromise.html', data=data)
+    return render_template('searchPromise.html',data=data,searchTag=searchTag)
 
 
 @app.route('/if-completed', methods=['GET', 'POST'])
