@@ -130,9 +130,9 @@
                 {% if day.current == 1 %}
                     {% if day.today == 1 %}
                         {% if day.cell_class == "add" %}
-                            <li class="{{day.cell_class}}" onclick="window.location.href='/create-promise'">{{day.day}} <img></li>
+                            <li class="{{day.cell_class}}" onclick="window.location.href='/create-promise?redirect_url=/home-calendar-view'">{{day.day}} <img></li>
                         {% elif day.cell_class == "question" %}
-                            <li class="{{day.cell_class}}" onclick="window.location.href='/if-completed?id={{day.id}}'">{{day.day}} <img></li>
+                            <li class="{{day.cell_class}}" onclick="window.location.href='/if-completed?id={{day.id}}&redirect_url=/home-calendar-view'">{{day.day}} <img></li>
                         {% else %}
                             <li class="{{day.cell_class}}">{{day.day}} <img></li>
                         {% endif %}
