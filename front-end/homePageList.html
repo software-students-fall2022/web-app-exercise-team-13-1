@@ -42,6 +42,7 @@
                 <td><a href="{{url_for ('/if-completed?redirect_url?=/home-list-view&_id={{doc._id}}')}}"><button class="btn"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Question_mark_%28black%29.svg/800px-Question_mark_%28black%29.svg.png"></button></a></td>
                 {%endif%}
             </tr>
+        {% endfor %}
     </table>
 </body>
 </html>
