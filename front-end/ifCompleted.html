@@ -2,28 +2,20 @@
 <html lang="en">
 <head>
 	<title>Document</title>
-<<<<<<< HEAD
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/ifCompleted.css') }}">
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/basic.css') }}">
-=======
-	<link rel="stylesheet" href="css/ifCompleted.css">
-	<link rel="stylesheet" href="css/basic.css">
->>>>>>> Adding error handler route in app
 
 </head>
 <body>
 	<h1 class="if-completed-header"> Have you kept your promise for today?</h1>
-	<div class="if-completed-text">I will call my parents today.</div>
+	<div class="if-completed-text">{{content}}</div>
 		<form class="if-completed-box" action="" method="POST">
-<<<<<<< HEAD
 			<input type="hidden" name="id" value="{{id}}" />
 			<input type="hidden" name="redirect_url" value="{{redirect_url}}" />
-=======
->>>>>>> Adding error handler route in app
 			<input class="yes-no" type="submit" name="if-completed" value="Yes"/>
 			<input class="yes-no" type="submit" name="if-completed" value="No"/>
 		</form>
-		<a href="index.html"><div>Return Home</div></a>
+		<a href="/home-calendar-view"><div>Return Home</div></a>
 	
 </body>
 </html>
