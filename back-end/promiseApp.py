@@ -285,16 +285,13 @@ def show_if_completed():
         redirect_url = request.args.get('redirect_url')
         # need to use query string to send a specific id for if-completed
         id = request.args.get('id')
-        return render_template('ifCompleted.html', redirect_url=redirect_url, id=id)
+        promise = db.promises.find_one({"_id": ObjectId(id)})
+        return render_template('ifCompleted.html', redirect_url=redirect_url, id=id, content=promise['content'])
 
 
 # run the app
 if __name__ == "__main__":
-
 	#import logging
 	#logging.basicConfig(filename='/home/ak8257/error.log',level=logging.DEBUG)
 	app.run(debug = True)
-
-
-
 
