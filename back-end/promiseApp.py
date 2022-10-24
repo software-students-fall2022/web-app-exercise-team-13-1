@@ -204,7 +204,7 @@ def show_create_promise():
         return render_template('createPromise.html', redirect_url=redirect_url)
 
 
-@app.route('/edit-promise')
+@app.route('/edit-promise', methods=['GET', 'POST'])
 def show_edit_promise():
 
     if request.method == 'POST':
