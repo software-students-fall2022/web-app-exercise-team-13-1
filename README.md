@@ -9,8 +9,18 @@ A website where you can create daily motivational promises to yourself and visua
 
 ## User stories
 
-See instructions. Delete this line and place a link to the user stories here.
+https://github.com/software-students-fall2022/web-app-exercise-team-13-1/issues
+
+
+## Wireframes
+Use the link below to check our wireframes 
+https://www.figma.com/file/8FzmxcMe926TtobNgbP4C9/Untitled?node-id=0%3A1
 
 ## Task boards
 
-See instructions. Delete this line and place a link to the task boards here.
+##### Sprint 1
+https://github.com/orgs/software-students-fall2022/projects/12/views/1
+
+##### Sprint 2
+https://github.com/orgs/software-students-fall2022/projects/35
+
