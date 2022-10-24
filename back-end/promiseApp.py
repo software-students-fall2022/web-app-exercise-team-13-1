@@ -46,9 +46,7 @@ except Exception as e:
 
 @app.route('/')
 def show_home():
-    response = make_response("Let's get started on making your promises!", 200)
-    response.mimetype = "text/plain"
-    return response
+    return redirect("/home-calendar-view")
 
 
 @app.route('/home-list-view')
@@ -229,32 +227,32 @@ def show_edit_promise():
 
     #mongoid = db.promises.insert_one(doc)
     data = db.promises.find({
-            "date": {
-             "$gte": "1900-1-1",
-            }
+        "date": {
+            "$gte": "1900-1-1",
+        }
     }).sort("date", -1)
     #print(data, file=sys.stderr)
     return render_template('editPromise.html', data=data)
 
 
-@app.route('/search-promise', methods=['GET','POST'])
+@app.route('/search-promise', methods=['GET', 'POST'])
 def show_search_promise():
-    searchTag=""
+    searchTag = ""
     if request.method == 'POST':
-        searchTag=request.form['search']
+        searchTag = request.form['search']
         #db.promises.drop_index('your field_text')
         db.promises.create_index([('content', 'text')])
-        data=db.promises.find({
-          "$text": {"$search": searchTag}
+        data = db.promises.find({
+            "$text": {"$search": searchTag}
         }).sort("date", 1)
     else:
-        data=db.promises.find({
-        "date": {
-             "$gte": "1900-1-1",
+        data = db.promises.find({
+            "date": {
+                "$gte": "1900-1-1",
             }
         }).sort("date", -1)
     print(searchTag, file=sys.stderr)
-    return render_template('searchPromise.html',data=data,searchTag=searchTag)
+    return render_template('searchPromise.html', data=data, searchTag=searchTag)
 
 
 @app.route('/if-completed', methods=['GET', 'POST'])
@@ -287,14 +285,4 @@ def show_if_completed():
 
 # run the app
 if __name__ == "__main__":
-    #import logging
-    # logging.basicConfig(filename='/home/ak8257/error.log',level=logging.DEBUG)
     app.run(debug=True)
-
-
-@app.errorhandler(Exception)
-def handle_error(e):
-    """
-    Output any errors - good for debugging.
-    """
-    return render_template('error.html', error=e)  # render the edit template
