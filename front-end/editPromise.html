@@ -1,107 +1,120 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>Edit Page</title>
-		<link rel="stylesheet" href="static/css/basic.css">
-		<style>
-			input {
-				width: 100%;
-				height:100px;
-				font-size:60px;
-				border: 2px solid red;
-				 border-radius: 4px;
-			}
-			button {
-			  font-size:25px;
-			  background-color: rgba(100,200,100,0.5);
-			  border: 2px solid white;
-			  color: white;
-			  padding: 16px 32px;
-			  text-decoration: none;
-			  margin: 4px 2px;
-			  cursor: pointer;
-			}
 
-			button[type=submit]{
-				background-color: rgba(200,100,100,0.5);
-			}
-				/* Get the code from w3 school */
-			.modal {
-				display: none; /* Hidden by default */
-				position: fixed; /* Stay in place */
-				 z-index: 1; /* Sit on top */
-				 left: 0;
-				 top: 0;
-				 width: 100%; /* Full width */
-				 height: 100%; /* Full height */
-				 overflow: auto; /* Enable scroll if needed */
-				 background-color: rgb(0,0,0); /* Fallback color */
-				 background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-			}
+<head>
+	<title>Edit Page</title>
+	<link rel="stylesheet" href="static/css/basic.css">
+	<style>
+		input {
+			width: 100%;
+			height: 100px;
+			font-size: 60px;
+			border: 2px solid red;
+			border-radius: 4px;
+		}
 
-				/* Modal Content/Box */
-				.modal-content {
-				  background-color: #fefefe;
-				  margin: 15% auto; /* 15% from the top and centered */
-				  padding: 20px;
-				  border: 1px solid #888;
-				  width: 80%; /* Could be more or less, depending on screen size */
-				}
+		button {
+			font-size: 25px;
+			background-color: rgba(100, 200, 100, 0.5);
+			border: 2px solid white;
+			color: white;
+			padding: 16px 32px;
+			text-decoration: none;
+			margin: 4px 2px;
+			cursor: pointer;
+		}
 
-				/* The Close Button */
-				.close {
-				  color: #aaa;
-				  float: right;
-				  font-size: 28px;
-				  font-weight: bold;
-				}
+		button[type=submit] {
+			background-color: rgba(200, 100, 100, 0.5);
+		}
 
-				.close:hover,
-				.close:focus {
-				  color: black;
-				  text-decoration: none;
-				  cursor: pointer;
-				}
+		/* Get the code from w3 school */
+		.modal {
+			display: none;
+			/* Hidden by default */
+			position: fixed;
+			/* Stay in place */
+			z-index: 1;
+			/* Sit on top */
+			left: 0;
+			top: 0;
+			width: 100%;
+			/* Full width */
+			height: 100%;
+			/* Full height */
+			overflow: auto;
+			/* Enable scroll if needed */
+			background-color: rgb(0, 0, 0);
+			/* Fallback color */
+			background-color: rgba(0, 0, 0, 0.4);
+			/* Black w/ opacity */
+		}
 
-				#Search{
-				width: 100%;
-				height:60px;
-				font-size:40px;
-				border: 2px solid green;
-				border-radius: 4px;
-			}
-				
-		</style>
+		/* Modal Content/Box */
+		.modal-content {
+			background-color: #fefefe;
+			margin: 15% auto;
+			/* 15% from the top and centered */
+			padding: 20px;
+			border: 1px solid #888;
+			width: 80%;
+			/* Could be more or less, depending on screen size */
+		}
 
-		
-	</head>
+		/* The Close Button */
+		.close {
+			color: #aaa;
+			float: right;
+			font-size: 28px;
+			font-weight: bold;
+		}
 
-	<body>
-		<!-- The Modal -->
-		<div id="myModal" class="modal">
+		.close:hover,
+		.close:focus {
+			color: black;
+			text-decoration: none;
+			cursor: pointer;
+		}
 
-			<!-- Modal content -->
-			<div class="modal-content">
-				<span class="close">&times;</span>
-				<p>Some text in the Modal..</p>
+		#Search {
+			width: 100%;
+			height: 60px;
+			font-size: 40px;
+			border: 2px solid green;
+			border-radius: 4px;
+		}
+	</style>
 
-				<form action="/edit-promise" method="post">
-					<input type="text" id="editContent" name="edit" value="text" ><br>
-					<button type="submit" id="editButton" name="editId" value="" style="border: 2px solid gray; background-color: rgba(100,200,200,0.5);">Change</button>
-				</form> 
 
-			</div>
+</head>
+
+<body>
+	<!-- The Modal -->
+	<div id="myModal" class="modal">
+
+		<!-- Modal content -->
+		<div class="modal-content">
+			<span class="close">&times;</span>
+			<p>Some text in the Modal..</p>
+
+			<form action="/edit-promise" method="post">
+				<input type="text" id="editContent" name="edit" value="text"><br>
+				<button type="submit" id="editButton" name="editId" value=""
+					style="border: 2px solid gray; background-color: rgba(100,200,200,0.5);">Change</button>
+			</form>
 
 		</div>
 
-		<h1>Edit existing promise here</h1>
-		<a href="index.html">Return Home</a>
+	</div>
 
-		<form method="post" action="search-promise">
-			<input type="text" id="Search" name="search" value="" placeholder="Search.." >
-		</form>
+	<h1>Edit existing promise here</h1>
+	<a href="/">Return Home</a>
 
-		<table id="myTable">
+	<form method="post" action="search-promise">
+		<input type="text" id="Search" name="search" value="" placeholder="Search..">
+	</form>
+
+	<table id="myTable">
 		<tr>
 			<th>Promise</th>
 			<th>Date</th>
@@ -110,9 +123,10 @@
 		</tr>
 		{% for i in data %}
 		<tr>
-			<td><button class="myBtn" onclick="myFunction('{{i._id}}','{{i.content}}')" id="{{i._id}}" value="{{i.content}}">{{i.content}}</button></td>
+			<td><button class="myBtn" onclick="myFunction('{{i._id}}','{{i.content}}')" id="{{i._id}}"
+					value="{{i.content}}">{{i.content}}</button></td>
 			<td>{{i.date}}</td>
-			<td>{{i.status}}</td>		
+			<td>{{i.status}}</td>
 			<td>
 				<form action="edit-promise" method="post">
 					<button type="submit" name="delete" value="{{i._id}}">Delete This</button>
@@ -120,67 +134,68 @@
 			</td>
 		</tr>
 		{% endfor %}
-		
-		</table>
-		
-	</body>
 
-	<script>
-			/*var table = document.getElementById("myTable");
-			for(var i=1;i<10;i++){
-			var row = table.insertRow(i);
-			var cell1 = row.insertCell(0);
-			var cell2 = row.insertCell(1);
-			var cell3 = row.insertCell(2);
-			var cell4 = row.insertCell(3);
-			cell1.innerHTML = '<p>I want to dance with '+i+' snow man</p>';
-			cell2.innerHTML = '<p>'+new Date()+'</p>';
-			cell3.innerHTML = '<a href="editPromise.html">Not Complete';
-			cell4.innerHTML = '<a href="editPromise.html">delete';
-			}*/
-			// Get the modal
-			var modal = document.getElementById("myModal");
-	
-			// Get the button that opens the modal
-			var buttons = document.getElementsByClassName("myBtn");
+	</table>
 
-			// Get the <span> element that closes the modal
-			var span = document.getElementsByClassName("close")[0];
+</body>
 
-			var temp1=new Array(buttons.length);
-			var temp2=new Array(buttons.length);
-			// When the user clicks on the button, open the modal
-			for (var i = 0; i < buttons.length; i++) {
-				temp1[i]=buttons.item(i).id;
-				temp2[i]=buttons.item(i).value;
-				//console.log(temp1[i]);
-				//buttons.item(i).onclick = open(temp1[i],temp2[i]);
-				/*function(a=temp1[i],b=temp2[i]) {
-					 modal.style.display = "block"
-					 document.getElementById("editButton").value = a;
-					 document.getElementById("editContent").value = b;
-				}*/
-			}
+<script>
+	/*var table = document.getElementById("myTable");
+	for(var i=1;i<10;i++){
+	var row = table.insertRow(i);
+	var cell1 = row.insertCell(0);
+	var cell2 = row.insertCell(1);
+	var cell3 = row.insertCell(2);
+	var cell4 = row.insertCell(3);
+	cell1.innerHTML = '<p>I want to dance with '+i+' snow man</p>';
+	cell2.innerHTML = '<p>'+new Date()+'</p>';
+	cell3.innerHTML = '<a href="editPromise.html">Not Complete';
+	cell4.innerHTML = '<a href="editPromise.html">delete';
+	}*/
+	// Get the modal
+	var modal = document.getElementById("myModal");
+
+	// Get the button that opens the modal
+	var buttons = document.getElementsByClassName("myBtn");
+
+	// Get the <span> element that closes the modal
+	var span = document.getElementsByClassName("close")[0];
+
+	var temp1 = new Array(buttons.length);
+	var temp2 = new Array(buttons.length);
+	// When the user clicks on the button, open the modal
+	for (var i = 0; i < buttons.length; i++) {
+		temp1[i] = buttons.item(i).id;
+		temp2[i] = buttons.item(i).value;
+		//console.log(temp1[i]);
+		//buttons.item(i).onclick = open(temp1[i],temp2[i]);
+		/*function(a=temp1[i],b=temp2[i]) {
+			 modal.style.display = "block"
+			 document.getElementById("editButton").value = a;
+			 document.getElementById("editContent").value = b;
+		}*/
+	}
 
 
-			// When the user clicks on <span> (x), close the modal
-			span.onclick = function() {
-				 modal.style.display = "none";
-			}
+	// When the user clicks on <span> (x), close the modal
+	span.onclick = function () {
+		modal.style.display = "none";
+	}
 
-			// When the user clicks anywhere outside of the modal, close it
-			window.onclick = function(event) {
-			  if (event.target == modal) {
-				modal.style.display = "none";
-				
-			  }
-			}
+	// When the user clicks anywhere outside of the modal, close it
+	window.onclick = function (event) {
+		if (event.target == modal) {
+			modal.style.display = "none";
 
-			function myFunction(a,b) {
-				var modal = document.getElementById("myModal");
-				 modal.style.display = "block"
-				 document.getElementById("editButton").value = a;
-				 document.getElementById("editContent").value = b;
-			}
-	</script>
+		}
+	}
+
+	function myFunction(a, b) {
+		var modal = document.getElementById("myModal");
+		modal.style.display = "block"
+		document.getElementById("editButton").value = a;
+		document.getElementById("editContent").value = b;
+	}
+</script>
+
 </html>
