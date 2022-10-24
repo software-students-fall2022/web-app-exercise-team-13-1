@@ -51,8 +51,13 @@ def show_home():
 
 @app.route('/home-list-view')
 def show_home_list_view():
-    docs = db.promises.find({}).sort("date", -1)
-    return render_template('homePageList.html', docs=docs)
+
+    docs=db.promises.find({}).sort("date", -1)
+    today= datetime.date.today()
+    today_s= today.strftime('%Y-%m-%d')
+    today_promise=db.promises.find({"date":today_s})
+    return render_template('homePageList.html', docs=docs, today_promise=today_promise)
+
 
 
 @app.route('/home-calendar-view')
@@ -285,4 +290,11 @@ def show_if_completed():
 
 # run the app
 if __name__ == "__main__":
-    app.run(debug=True)
+
+	#import logging
+	#logging.basicConfig(filename='/home/ak8257/error.log',level=logging.DEBUG)
+	app.run(debug = True)
+
+
+
+
