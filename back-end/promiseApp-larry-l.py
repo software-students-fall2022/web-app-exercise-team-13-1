@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from flask import Flask, render_template, request, redirect, url_for, make_response
 from dotenv import dotenv_values
 
@@ -27,7 +29,7 @@ if config['FLASK_ENV'] == 'development':
 # Database Schema
 # DB Name: team13db
 # Collection Name: promises
-# data structure: {'"_id": "UUID (Auto-Generated)", "content": " ", "date": "%Y-%m-%d", "status": "completed / incomplete / ongoing"}
+# data structure: {'promise': '', 'date': '', 'complete': true}
 
 cxn = pymongo.MongoClient(config['MONGO_URI'], serverSelectionTimeoutMS=5000)
 try:
@@ -53,8 +55,7 @@ def show_home():
 
 @app.route('/home-list-view')
 def show_home_list_view():
-    docs = db.promises.find({}).sort("date", -1)
-    return render_template('homePageList.html', docs=docs)
+    return render_template('homePageList.html')
 
 
 @app.route('/home-calendar-view')
@@ -182,79 +183,14 @@ def show_home_calendar_view():
     return render_template('calendarView.html', today=today, display_days=display_days, prev_month=prev_month, next_month=next_month)
 
 
-@app.route('/create-promise', methods=['GET', 'POST'])
+@app.route('/create-promise')
 def show_create_promise():
-    if request.method == 'POST':
-        # Create promise data from form
-        create_promise = request.form['promise']
-        redirect_url = request.form['redirect_url']
-
-        create_data = {
-            'content': create_promise,
-            'date': datetime.datetime.now().strftime('%Y-%m-%d'),
-            'status': 'ongoing',
-        }
-
-        db.promises.insert_one(create_data)
-
-        # Redirect to other page
-        return redirect(redirect_url)
-    elif request.method == 'GET':
-        redirect_url = request.args.get('redirect_url')
-        return render_template('createPromise.html', redirect_url=redirect_url)
+    return render_template('createPromise.html')
 
 
 @app.route('/edit-promise')
 def show_edit_promise():
-
-    if request.method == 'POST':
-        if "delete" in request.form:
-            idToDelete = request.form['delete']
-            db.promises.delete_one({
-                "_id": ObjectId(idToDelete)
-            })
-            #print('Hello world!', file=sys.stderr)
-        else:
-            idToEdit = request.form['editId']
-            editContent = request.form['edit']
-            #print(idToEdit, file=sys.stderr)
-            db.promises.update_one({"_id": ObjectId(idToEdit)}, {
-                                   "$set": {"content": editContent}})
-
-    doc = {
-        "content": "I will study for my physics exam.",
-        "date": "2022-11-28",
-        "status": "incomplete"
-    }
-
-    #mongoid = db.promises.insert_one(doc)
-    data = db.promises.find({
-            "date": {
-             "$gte": "1900-1-1",
-            }
-    }).sort("date", -1)
-    #print(data, file=sys.stderr)
-    return render_template('editPromise.html', data=data)
-
-
-@app.route('/search-promise', methods=['GET','POST'])
-def show_search_promise():
-    searchTag=""
-    if request.method == 'POST':
-        searchTag=request.form['search']
-        #db.promises.drop_index('your field_text')
-        db.promises.create_index([('content', 'text')])
-        data=db.promises.find({
-          "$text": {"$search": searchTag}
-        }).sort("date", 1)
-    else:
-        data=db.promises.find({
-        "date": {
-             "$gte": "1900-1-1",
-            }
-        }).sort("date", -1)
-    print(searchTag, file=sys.stderr)
-    return render_template('searchPromise.html',data=data,searchTag=searchTag)
+    return render_template('editPromise.html')
 
 
 @app.route('/if-completed', methods=['GET', 'POST'])
@@ -265,13 +201,8 @@ def show_if_completed():
         redirect_url = request.form['redirect_url']
         id = request.form['id']
 
-        if_completed_mapper = {
-            'Yes': 'completed',
-            'No': 'incomplete'
-        }
-
         update_data = {
-            'status': if_completed_mapper[if_completed]
+            'complete': if_completed == 'Yes'
         }
 
         db.promises.update_one({"_id": ObjectId(id)}, {"$set": update_data})
@@ -287,13 +218,4 @@ def show_if_completed():
 
 # run the app
 if __name__ == "__main__":
-    #import logging
-    # logging.basicConfig(filename='/home/ak8257/error.log',level=logging.DEBUG)
     app.run(debug=True)
-
-@app.errorhandler(Exception)
-def handle_error(e):
-    """
-    Output any errors - good for debugging.
-    """
-    return render_template('error.html', error=e)  # render the edit template

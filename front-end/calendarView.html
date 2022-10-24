@@ -9,7 +9,6 @@
             align-items: center;
             font-size: calc(16px + (26 - 16) * ((100vw - 300px) / (1600 - 300)));
             justify-content: center;
-            margin-bottom: 2em;
             color: #000;
             min-height: 10vh;
             text-align: center;
@@ -59,19 +58,19 @@
         }
 
         li.completed>img {
-            content: url("./images/green_check.png");
+            content: url("{{ url_for('static', filename='images/green_check.png') }}");
         }
 
         li.not-completed>img {
-            content: url("./images/red_cross.png");
+            content: url("{{ url_for('static', filename='images/red_cross.png') }}");
         }
 
         li.question>img {
-            content: url("./images/question.png");
+            content: url("{{ url_for('static', filename='images/question.png') }}");
         }
 
         li.add>img {
-            content: url("./images/plus.png");
+            content: url("{{ url_for('static', filename='images/plus.png') }}");
         }
 
         @media all and (max-width: 800px) {
@@ -97,8 +96,9 @@
 <body>
     <div class="calendar">
         <header>
-            <button>&lt;</button>
-            <h1>October 2022</h1> <button>&gt;</button>
+            <button onclick="window.location.href='/home-calendar-view?year={{prev_month.year}}&month={{prev_month.month}}'">&lt;</button>
+            <h1>{{today.month_eng}} {{today.year}}</h1>
+            <button onclick="window.location.href='/home-calendar-view?year={{next_month.year}}&month={{next_month.month}}'">&gt;</button>
         </header>
 
         <ul class="weekdays">
@@ -126,48 +126,23 @@
         </ul>
 
         <ol class="day-grid">
-            <li class="month-prev">26</li>
-            <li class="month-prev">27</li>
-            <li class="month-prev">28</li>
-            <li class="month-prev">29</li>
-            <li class="month-prev">30</li>
-            <li class="completed">1 <img></li>
-            <li class="not-completed">2 <img></li>
-            <li class="completed">3 <img></li>
-            <li class="completed">4 <img></li>
-            <li class="not-completed">5 <img></li>
-            <li class="completed">6 <img></li>
-            <li class="completed">7 <img></li>
-            <li class="not-completed">8 <img></li>
-            <li class="not-completed">9 <img></li>
-            <li class="completed">10 <img></li>
-            <li class="completed">11 <img></li>
-            <li class="completed">12 <img></li>
-            <li class="not-completed">13 <img></li>
-            <li class="completed">14 <img></li>
-            <li class="completed">15 <img></li>
-            <li class="completed">16 <img></li>
-            <li class="question">17 <img></li>
-            <li class="add">18 <img></li>
-            <li>19 <img></li>
-            <li>20 <img></li>
-            <li>21 <img></li>
-            <li>22 <img></li>
-            <li>23 <img></li>
-            <li>24 <img></li>
-            <li>25 <img></li>
-            <li>26 <img></li>
-            <li>27 <img></li>
-            <li>28 <img></li>
-            <li>29 <img></li>
-            <li>30 <img></li>
-            <li>31 <img></li>
-            <li class="month-next">1</li>
-            <li class="month-next">2</li>
-            <li class="month-next">3</li>
-            <li class="month-next">4</li>
-            <li class="month-next">5</li>
-            <li class="month-next">6</li>
+            {% for day in display_days %}
+                {% if day.current == 1 %}
+                    {% if day.today == 1 %}
+                        {% if day.cell_class == "add" %}
+                            <li class="{{day.cell_class}}" onclick="window.location.href='/create-promise?redirect_url=/home-calendar-view'">{{day.day}} <img></li>
+                        {% elif day.cell_class == "question" %}
+                            <li class="{{day.cell_class}}" onclick="window.location.href='/if-completed?id={{day.id}}&redirect_url=/home-calendar-view'">{{day.day}} <img></li>
+                        {% else %}
+                            <li class="{{day.cell_class}}">{{day.day}} <img></li>
+                        {% endif %}
+                    {% else %}
+                        <li class="{{day.cell_class}}">{{day.day}} <img></li>
+                    {% endif %}
+                {% else %}
+                    <li class="{{day.cell_class}}"></li>
+                {% endif %}
+            {% endfor %}
         </ol>
     </div>
 </body>
