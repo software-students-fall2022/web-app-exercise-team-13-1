@@ -55,13 +55,19 @@ def show_search_promise():
     searchTag=""
     if request.method == 'POST':
         searchTag=request.form['search']
-    #db.wc1629.drop_index('your field_text')
-    db.wc1629.create_index([('content', 'text')])
-    data=db.wc1629.find({
-      "$text": {"$search": searchTag}
-    })
+        #db.wc1629.drop_index('your field_text')
+        db.wc1629.create_index([('content', 'text')])
+        data=db.wc1629.find({
+          "$text": {"$search": searchTag}
+        }).sort("date", 1)
+    else:
+        data=db.wc1629.find({
+        "date": {
+             "$gte": "1900-1-1",
+            }
+        }).sort("date", -1)
     print(searchTag, file=sys.stderr)
-    return render_template('searchPromise.html',data=data)
+    return render_template('searchPromise.html',data=data,searchTag=searchTag)
 
 @app.route('/edit-promise', methods=['GET','POST'])
 def show_edit_promise():
@@ -88,8 +94,7 @@ def show_edit_promise():
     #mongoid = db.wc1629.insert_one(doc)
     data=db.wc1629.find({
         "date": {
-             "$gte": "2022-11-1",
-             "$lte": "2022-11-31"
+             "$gte": "1900-1-1",
             }
     }).sort("date", -1)
     #print(data, file=sys.stderr)

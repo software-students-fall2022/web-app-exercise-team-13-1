@@ -148,4 +148,6 @@ dmypy.json
 cython_debug/
 
 # Stuff that's for me :)
-backEnd/
+
+*.env
+

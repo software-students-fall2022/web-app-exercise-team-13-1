@@ -9,6 +9,7 @@
         margin-left:auto;
         margin-right:auto;
       }
+
    </style>
     <div class="topnav">
         <p id="Search"><a href="searchPromise.html"><img src="https://www.iconsdb.com/icons/preview/white/google-web-search-xxl.png" width="25" height="25"> Search</a></p>
@@ -21,6 +22,7 @@
     </h2>
     <a href= "{{url_for ('/edit-promise?redirect_url?=/home-list-view')}}">><button class= "btn"><img src=" https://cdn-icons-png.flaticon.com/512/84/84380.png"></i></button></a>
     <a href= "{{url_for ('/calendar-view?redirect_url?=/home-list-view')}}">><button class= "btn"><img src="https://cdn-icons-png.flaticon.com/512/55/55281.png"></i></button></a>
+
 </head>
 <body>
     <table>
@@ -31,6 +33,7 @@
         </tr>
         {% for doc in docs %}
             <tr>
+
                 {%if today_promise %}
                 <td>{{doc.promise}}</td>
                 {% else %}
@@ -43,6 +46,7 @@
                 {%endif%}
             </tr>
         {% endfor %}
+
     </table>
 </body>
 </html>

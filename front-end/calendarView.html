@@ -99,6 +99,8 @@
             <button onclick="window.location.href='/home-calendar-view?year={{prev_month.year}}&month={{prev_month.month}}'">&lt;</button>
             <h1>{{today.month_eng}} {{today.year}}</h1>
             <button onclick="window.location.href='/home-calendar-view?year={{next_month.year}}&month={{next_month.month}}'">&gt;</button>
+
+            <button style="position: relative; left: 50px;" onclick="window.location.href='/home-list-view'">List View Mode</button>
         </header>
 
         <ul class="weekdays">
@@ -130,9 +132,9 @@
                 {% if day.current == 1 %}
                     {% if day.today == 1 %}
                         {% if day.cell_class == "add" %}
-                            <li class="{{day.cell_class}}" onclick="window.location.href='/create-promise'">{{day.day}} <img></li>
+                            <li class="{{day.cell_class}}" onclick="window.location.href='/create-promise?redirect_url=/home-calendar-view'">{{day.day}} <img></li>
                         {% elif day.cell_class == "question" %}
-                            <li class="{{day.cell_class}}" onclick="window.location.href='/if-completed?id={{day.id}}'">{{day.day}} <img></li>
+                            <li class="{{day.cell_class}}" onclick="window.location.href='/if-completed?id={{day.id}}&redirect_url=/home-calendar-view'">{{day.day}} <img></li>
                         {% else %}
                             <li class="{{day.cell_class}}">{{day.day}} <img></li>
                         {% endif %}
