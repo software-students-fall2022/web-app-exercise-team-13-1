@@ -3,6 +3,12 @@
 
 A little exercise to build a web application following an agile development process. See the [instructions](instructions.md) for more detail.
 
+## Tea Members
+- Anvi Agarwal (aa7140)
+- Tiffany Lee (el2765)
+- Wuji Cao (wc1629)
+- Larry Li (zl2902)
+
 ## Product vision statement
 
 A website where you can create daily motivational promises to yourself and visualize the accomplishment to promote consistent motivation. 
