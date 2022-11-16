@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Document</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/ifCompleted.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/basic.css') }}">
+
+</head>
+<body>
+	<h1 class="if-completed-header"> Have you kept your promise for today?</h1>
+	<div class="if-completed-text">{{content}}</div>
+		<form class="if-completed-box" action="" method="POST">
+			<input type="hidden" name="id" value="{{id}}" />
+			<input type="hidden" name="redirect_url" value="{{redirect_url}}" />
+			<input class="yes-no" type="submit" name="if-completed" value="Yes"/>
+			<input class="yes-no" type="submit" name="if-completed" value="No"/>
+		</form>
+		<a href="/home-calendar-view"><div>Return Home</div></a>
+	
+</body>
+</html>

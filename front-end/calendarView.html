@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Calendar View</title>
+    <style>
+        header {
+            display: flex;
+            align-items: center;
+            font-size: calc(16px + (26 - 16) * ((100vw - 300px) / (1600 - 300)));
+            justify-content: center;
+            color: #000;
+            min-height: 10vh;
+            text-align: center;
+        }
+
+        ul,
+        ol {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            grid-gap: 1em;
+            margin: 0 auto;
+            max-width: 64em;
+            padding: 0;
+        }
+
+        li {
+            display: flex;
+            list-style: none;
+            margin-left: 0;
+            font-size: calc(16px + (21 - 16) * ((100vw - 300px) / (1600 - 300)));
+        }
+
+        ul.weekdays {
+            margin-bottom: 1em;
+        }
+
+        ul.weekdays li {
+            height: 4vw;
+        }
+
+        ol.day-grid li {
+            background-color: #eaeaea;
+            border: 1px solid #eaeaea;
+            height: 12vw;
+            max-height: 125px;
+        }
+
+        ul.weekdays abbr[title] {
+            border: none;
+            font-weight: 800;
+            text-decoration: none;
+        }
+
+        .month-prev,
+        .month-next {
+            background-color: #fff !important;
+        }
+
+        li.completed>img {
+            content: url("{{ url_for('static', filename='images/green_check.png') }}");
+        }
+
+        li.not-completed>img {
+            content: url("{{ url_for('static', filename='images/red_cross.png') }}");
+        }
+
+        li.question>img {
+            content: url("{{ url_for('static', filename='images/question.png') }}");
+        }
+
+        li.add>img {
+            content: url("{{ url_for('static', filename='images/plus.png') }}");
+        }
+
+        @media all and (max-width: 800px) {
+
+            ul,
+            ol {
+                grid-gap: .25em;
+            }
+
+            ul.weekdays li {
+                font-size: 0;
+            }
+
+            ul.weekdays>li abbr:after {
+                content: attr(title);
+                font-size: calc(16px + (26 - 16) * ((100vw - 300px) / (1600 - 300)));
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="calendar">
+        <header>
+            <button onclick="window.location.href='/home-calendar-view?year={{prev_month.year}}&month={{prev_month.month}}'">&lt;</button>
+            <h1>{{today.month_eng}} {{today.year}}</h1>
+            <button onclick="window.location.href='/home-calendar-view?year={{next_month.year}}&month={{next_month.month}}'">&gt;</button>
+
+            <button style="position: relative; left: 50px;" onclick="window.location.href='/home-list-view'">List View Mode</button>
+            <button style="position: relative; left: 50px;" onclick="window.location.href='/edit-promise'">Edit</button>
+            <button style="position: relative; left: 50px;" onclick="window.location.href='/search-promise'">Search</button>
+        </header>
+
+        <ul class="weekdays">
+            <li>
+                <abbr title="M">Monday</abbr>
+            </li>
+            <li>
+                <abbr title="T">Tuesday</abbr>
+            </li>
+            <li>
+                <abbr title="W">Wednesday</abbr>
+            </li>
+            <li>
+                <abbr title="T">Thursday</abbr>
+            </li>
+            <li>
+                <abbr title="F">Friday</abbr>
+            </li>
+            <li>
+                <abbr title="S">Saturday</abbr>
+            </li>
+            <li>
+                <abbr title="S">Sunday</abbr>
+            </li>
+        </ul>
+
+        <ol class="day-grid">
+            {% for day in display_days %}
+                {% if day.current == 1 %}
+                    {% if day.today == 1 %}
+                        {% if day.cell_class == "add" %}
+                            <li class="{{day.cell_class}}" onclick="window.location.href='/create-promise?redirect_url=/home-calendar-view'">{{day.day}} <img></li>
+                        {% elif day.cell_class == "question" %}
+                            <li class="{{day.cell_class}}" onclick="window.location.href='/if-completed?id={{day.id}}&redirect_url=/home-calendar-view'">{{day.day}} <img></li>
+                        {% else %}
+                            <li class="{{day.cell_class}}">{{day.day}} <img></li>
+                        {% endif %}
+                    {% else %}
+                        <li class="{{day.cell_class}}">{{day.day}} <img></li>
+                    {% endif %}
+                {% else %}
+                    <li class="{{day.cell_class}}"></li>
+                {% endif %}
+            {% endfor %}
+        </ol>
+    </div>
+</body>
+
+</html>

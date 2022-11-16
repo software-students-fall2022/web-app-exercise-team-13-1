@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        h2 {
+            text-align: center;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid black;
+            align-items: center;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        img {
+            height: 32px;
+            width: 32px;
+        }
+    </style>
+    <div class="topnav">
+        <p id="Search"><a href="/search-promise"><img
+                    src="https://www.iconsdb.com/icons/preview/white/google-web-search-xxl.png">
+                Search</a></p>
+    </div>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/basic.css') }}">
+    <a href="/edit-promise?redirect_url=/home-list-view">><button class="btn"><img
+                src=" https://cdn-icons-png.flaticon.com/512/84/84380.png"></i></button></a>
+    <a href="/home-calendar-view?redirect_url=/home-list-view">><button class="btn"><img
+                src="https://cdn-icons-png.flaticon.com/512/55/55281.png"></i></button></a>
+
+</head>
+
+<body>
+    <table>
+        <tr>
+            <th>Promise</th>
+            <th>Date</th>
+            <th>Completed</th>
+        </tr>
+        {% for doc in docs %}
+        <tr>
+
+            {%if today_promise %}
+            <td>{{doc.content}}</td>
+            {% else %}
+            <td><a href="/create-promise?redirect_url=/home-list-view"><button class="btn"><img
+                            src="https://media.istockphoto.com/vectors/black-plus-sign-positive-symbol-vector-id688550958?k=20&m=688550958&s=612x612&w=0&h=wvzUqT3u3feYygOXg3GB9pYBbqIsyu_xpvfTX-6HOd0="></button></a>
+            </td>
+            {% endif %}
+            <td>{{doc.date}}</td>
+            {%if doc.status != "ongoing" %}
+            <td>{{doc.status}}</td>
+            {% else %}
+            <td><a href="/if-completed?redirect_url=/home-list-view&id={{doc._id}}"><button class="btn"><img
+                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Question_mark_%28black%29.svg/800px-Question_mark_%28black%29.svg.png"></button></a>
+            </td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+
+    </table>
+</body>
+
+</html>
